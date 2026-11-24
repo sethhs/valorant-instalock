@@ -485,11 +485,11 @@ namespace Instalock
                         }
                     }
                     var selecting = await RiotApi.InAgentSelect(session);
-                    if (selecting == false && (DateTime.Now - serverCheckedAt).TotalSeconds < 5)
+                    if (selecting == false && (DateTime.Now - serverCheckedAt).TotalSeconds < 1.5)
                     {
                         handled = null;
                         Show("API  ·  WATCHING FOR AGENT SELECT", Cream);
-                        await Task.Delay(400, ct);
+                        await Task.Delay(200, ct);
                         continue;
                     }
                     serverCheckedAt = DateTime.Now;
@@ -498,7 +498,7 @@ namespace Instalock
                     {
                         handled = null;
                         Show("API  ·  WATCHING FOR AGENT SELECT", Cream);
-                        await Task.Delay(selecting == null ? 2000 : 400, ct);
+                        await Task.Delay(selecting == null ? 1500 : 150, ct);
                         continue;
                     }
                     if (match == handled)
@@ -526,7 +526,7 @@ namespace Instalock
                     if (!open)
                     {
                         Show("API  ·  MATCH FOUND - WAITING FOR PICKS", Cream);
-                        await Task.Delay(250, ct);
+                        await Task.Delay(150, ct);
                         continue;
                     }
                     if (attempts >= 6)
@@ -535,15 +535,10 @@ namespace Instalock
                         Show($"COULD NOT LOCK {name} - PICK BY HAND", Red);
                         continue;
                     }
-                    if (attempts == 0)
-                    {
-                        Show($"API  ·  PICKS OPEN - LOCKING {name}", Cream);
-                        await Task.Delay(700, ct);
-                    }
                     attempts++;
-                    var failed = await RiotApi.Lock(session, match, agent.Id, ct);
-                    Show(failed == null ? $"LOCKING {name}" : $"API  ·  {failed} REJECTED - RETRYING", failed == null ? Cream : Red);
-                    await Task.Delay(800, ct);
+                    var failed = await RiotApi.Lock(session, match, agent.Id);
+                    Show(failed == null ? $"API  ·  PICKS OPEN - LOCKING {name}" : $"API  ·  {failed} REJECTED - RETRYING", failed == null ? Cream : Red);
+                    await Task.Delay(250, ct);
                 }
                 catch (OperationCanceledException) { return; }
                 catch (RiotAuthExpired)

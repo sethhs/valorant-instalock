@@ -137,11 +137,10 @@ namespace Instalock
             return doc.RootElement.TryGetProperty("MatchID", out var id) ? id.GetString() : null;
         }
 
-        public static async Task<string> Lock(RiotSession s, string match, string agentId, System.Threading.CancellationToken ct)
+        public static async Task<string> Lock(RiotSession s, string match, string agentId)
         {
             using (var select = await Send(s, HttpMethod.Post, $"/pregame/v1/matches/{match}/select/{agentId}"))
                 if (!select.IsSuccessStatusCode) return $"SELECT {(int)select.StatusCode}";
-            await Task.Delay(500, ct);
             using var locked = await Send(s, HttpMethod.Post, $"/pregame/v1/matches/{match}/lock/{agentId}");
             return locked.IsSuccessStatusCode ? null : $"LOCK {(int)locked.StatusCode}";
         }

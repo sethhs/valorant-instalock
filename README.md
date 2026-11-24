@@ -55,7 +55,7 @@ Hover over an agent and click the **star** in the corner to make them a favorite
 | | 🖱️ Cursor assist | ⚡ API · risky |
 |---|---|---|
 | **What it does** | Finds agent select on your screen and moves your cursor to your agent, then LOCK IN. **You click.** | Talks to the Riot client on your PC and locks your agent for you. |
-| **Speed** | As fast as you click | About 1 second after picks open |
+| **Speed** | As fast as you click | A split second after picks open |
 | **Deathmatch** | ✅ | ❌ |
 | **Risk** | Lower | Higher |
 
